@@ -1,6 +1,6 @@
 FROM r-base:latest
 
-LABEL authors="Jakub Wąsik <jakub.wasik@analyx.com>" \
+LABEL author="Jakub Wąsik"
       
 RUN apt-get update && apt-get install -y \
   libpq-dev \
