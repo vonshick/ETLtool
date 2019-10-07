@@ -1,0 +1,57 @@
+library(jsonlite)
+library(tidyverse)
+library(foreach)
+library(doParallel)
+
+cluster <- makeCluster(6)
+registerDoParallel(cluster)
+
+file_names <-
+  tibble::tibble(files = list.files(path = "C:/Users/Kuba/Desktop/Dane_json/")) %>%
+  filter(stringr::str_ends(files, ".json")) %>%
+  pull(files)
+
+errors <- list()
+
+lapply(file_names, function(file) {
+  print(file)
+  file_name_to_save <- strsplit(file, "\\.")[[1]][[1]] # remove .json extension from file name
+  tryCatch({
+    setwd("C:/Users/Kuba/Desktop/Dane_json/")
+    source("functions.R")
+    table_final <- map_df(read_json(path = file), function(part) {
+      children_list <- part$childs
+      
+      foreach(
+        i = 1:length(children_list),
+        .combine = "bind_rows",
+        .packages = c("dplyr", "purrr")
+      ) %dopar% {
+        setwd("C:/Users/Kuba/Desktop/Dane_json/")
+        source("functions.R")
+        child <- children_list[[i]]
+        map_df(child$variables, function(variable) {
+          map_df(variable$data, function(set) {
+            do.call(bind_rows, set$values) %>%
+              merge(get_header(set, "set"))
+          }) %>%
+            merge(get_header(variable, "variable"))
+        }) %>%
+          merge(get_header(child, "child"))
+      } %>%
+        merge(get_header(part, "part"))
+    })
+    
+    saveRDS(table_final,
+            file = paste("output/",
+                         file_name_to_save,
+                         ".rds",
+                         sep = ""))
+  }, error = function(cond) {
+    errors[[file]] <<- cond
+    print(cond)
+  })
+  
+})
+
+stopCluster(cluster)
