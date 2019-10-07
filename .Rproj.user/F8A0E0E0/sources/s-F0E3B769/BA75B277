@@ -1,20 +1,20 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1570482215301.000,
+    "created" : 1570483213372.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
-    "id" : "53ABBBF6",
-    "lastKnownWriteTime" : 1570483906,
-    "last_content_update" : 1570483906304,
-    "path" : "~/RocheETL/R/json_to_table.R",
-    "project_path" : "R/json_to_table.R",
+    "id" : "BA75B277",
+    "lastKnownWriteTime" : 1570483282,
+    "last_content_update" : 1570483282120,
+    "path" : "~/RocheETL/R/helpers.R",
+    "project_path" : "R/helpers.R",
     "properties" : {
-        "cursorPosition" : "47,63",
-        "scrollLine" : "22",
-        "tempName" : "Untitled1"
+        "cursorPosition" : "45,0",
+        "scrollLine" : "20",
+        "tempName" : "Untitled3"
     },
     "read_only" : false,
     "read_only_alternatives" : [

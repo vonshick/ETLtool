@@ -2,6 +2,13 @@
 
 import(doParallel)
 import(foreach)
+importFrom(RPostgres,Postgres)
+importFrom(RPostgres,dbBegin)
+importFrom(RPostgres,dbCommit)
+importFrom(RPostgres,dbConnect)
+importFrom(RPostgres,dbDisconnect)
+importFrom(RPostgres,dbRollback)
+importFrom(RPostgres,dbWriteTable)
 importFrom(dplyr,"%>%")
 importFrom(dplyr,bind_rows)
 importFrom(dplyr,filter)

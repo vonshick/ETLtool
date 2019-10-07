@@ -5,9 +5,11 @@
 #' @importFrom jsonlite read_json
 #' @importFrom purrr map_df
 #' @importFrom dplyr bind_rows %>%
+#' @importFrom RPostgres dbBegin dbWriteTable dbRollback dbCommit dbDisconnect
 transform_json_files <- function(number_of_cores) {
   cluster <- makeCluster(number_of_cores)
   registerDoParallel(cluster)
+  database_connection <- create_database_connection()
   file_paths <- get_json_files_paths()
 
   lapply(file_paths, function(file) {
@@ -36,16 +38,18 @@ transform_json_files <- function(number_of_cores) {
           merge(get_header(part, "part"))
       })
 
-      saveRDS(table_final,
-              file = paste(file_name_without_extension,
-                           ".rds",
-                           sep = ""))
+      dbBegin(database_connection)
+      dbWriteTable(database_connection, "STG", table_final, append = TRUE)
+      print("Data inserted to STG")
+      dbCommit(database_connection)
 
     }, error = function(cond) {
+      dbRollback(database_connection)
       print(paste("Error when processing JSON file: ", cond, sep = ""))
     })
 
   })
 
+  dbDisconnect(database_connection)
   stopCluster(cluster)
 }
