@@ -1,6 +1,5 @@
 #' Select the latest data for each observation
 #' @importFrom RPostgres dbBegin dbReadTable dbWriteTable dbRollback dbCommit dbDisconnect
-#' @import dbplyr
 #' @import dplyr
 #' @export
 load_core_data <- function() {
@@ -44,7 +43,7 @@ load_core_data <- function() {
       dbBegin(database_connection)
       dbWriteTable(database_connection, "CORE", CORE_NEW, append = TRUE)
       dbCommit(database_connection)
-      print(paste("Loading to CORE succeded: ", err, sep = ""))
+      print("Loading to CORE succeded")
     }, error = function(err){
       dbRollback(database_connection)
       print(paste("Loading to CORE failed: ", err, sep = ""))

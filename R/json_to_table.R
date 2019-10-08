@@ -2,6 +2,7 @@
 #' @param number_of_clusters number of CPU cores taking part in processing
 #' @import foreach
 #' @import doParallel
+#' @import parallel
 #' @importFrom jsonlite read_json
 #' @importFrom purrr map_df
 #' @importFrom dplyr bind_rows %>%
