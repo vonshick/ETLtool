@@ -1,7 +1,0 @@
-Sys.setenv("JSON_DIRECTORY" = "C:/Users/Kuba/Desktop/Dane_json/")
-Sys.setenv("DB_HOST" = "127.0.0.1")
-Sys.setenv("DB_USER" = "postgres")
-Sys.setenv("DB_PASSWORD" = "kuba1997pl")
-Sys.setenv("DB_NAME" = "roche")
-Sys.setenv("DB_PORT" = "5432")
-Sys.setenv("DB_SCHEMA" = "verification_task")
